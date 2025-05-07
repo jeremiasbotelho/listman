@@ -2,34 +2,60 @@ import { useState } from "react";
 
 function Settings() {
   const [showTasks, setShowTasks] = useState(true);
-  const [taskLimit, setTaskLimit] = useState(3);
+  const [limitTasks, setLimitTasks] = useState(true);
 
   return (
     <div className="p-4 md:p-6">
       <h1 className="text-2xl font-bold mb-6">Configurações</h1>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-4">Preferências do Quadro</h2>
-        <div className="space-y-4">
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={showTasks}
-              onChange={() => setShowTasks(!showTasks)}
-              className="h-5 w-5 text-blue-600"
-            />
-            <span>Mostrar tarefas nos cards</span>
-          </label>
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Limite de tarefas visíveis
-            </label>
-            <input
-              type="number"
-              value={taskLimit}
-              onChange={(e) => setTaskLimit(Number(e.target.value))}
-              min="1"
-              className="w-20 p-2 border rounded"
-            />
+      <div className="space-y-4">
+        {/* Configuração: Mostrar tarefas */}
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              <h2 className="text-base font-semibold text-gray-900">
+                Mostrar tarefas nos cards
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Exibe as tarefas diretamente nos cards no quadro.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowTasks(!showTasks)}
+              className={`relative inline-flex items-center h-6 w-12 rounded-full transition-colors focus:outline-none ${
+                showTasks ? "bg-blue-600" : "bg-gray-300"
+              }`}
+            >
+              <span
+                className={`absolute h-4 w-4 bg-white rounded-full transition-transform ${
+                  showTasks ? "translate-x-7" : "translate-x-1"
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+        {/* Configuração: Limitar tarefas */}
+        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
+              <h2 className="text-base font-semibold text-gray-900">
+                Limitar tarefas visíveis
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Mostra até 3 tarefas por card, com opção de exibir todas.
+              </p>
+            </div>
+            <button
+              onClick={() => setLimitTasks(!limitTasks)}
+              className={`relative inline-flex items-center h-6 w-12 rounded-full transition-colors focus:outline-none ${
+                limitTasks ? "bg-blue-600" : "bg-gray-300"
+              }`}
+            >
+              <span
+                className={`absolute h-4 w-4 bg-white rounded-full transition-transform ${
+                  limitTasks ? "translate-x-7" : "translate-x-1"
+                }`}
+              />
+            </button>
           </div>
         </div>
       </div>

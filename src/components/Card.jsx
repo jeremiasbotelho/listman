@@ -3,9 +3,11 @@ import { useState } from "react";
 function Card({ title, tasks }) {
   const [showAllTasks, setShowAllTasks] = useState(false);
   const showTasks = true; // A ser substituído por estado global
-  const taskLimit = 3; // A ser substituído por estado global
+  const limitTasks = true; // A ser substituído por estado global
+  const taskLimit = 3;
 
-  const visibleTasks = showAllTasks ? tasks : tasks.slice(0, taskLimit);
+  const visibleTasks =
+    showAllTasks || !limitTasks ? tasks : tasks.slice(0, taskLimit);
 
   return (
     <div className="bg-gray-50 p-3 rounded-md shadow-sm">
@@ -19,12 +21,14 @@ function Card({ title, tasks }) {
               </li>
             ))}
           </ul>
-          {tasks.length > taskLimit && !showAllTasks && (
+          {limitTasks && tasks.length > taskLimit && (
             <button
-              onClick={() => setShowAllTasks(true)}
-              className="mt-2 text-blue-600 text-sm hover:underline"
+              onClick={() => setShowAllTasks(!showAllTasks)}
+              className="mt-2 text-blue-700 text-sm hover:underline"
             >
-              Mostrar todas ({tasks.length})
+              {showAllTasks
+                ? "Mostrar menos"
+                : `Mostrar todas (${tasks.length})`}
             </button>
           )}
         </>
