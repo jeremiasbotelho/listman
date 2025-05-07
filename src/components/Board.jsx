@@ -12,8 +12,8 @@ function Board() {
           tasks: [
             { id: 1, description: "Fazer pesquisa" },
             { id: 2, description: "Escrever relatório" },
-            { id: 2, description: "Exportar PDF" },
-            { id: 2, description: "Falar com superior" },
+            { id: 3, description: "Exportar PDF" },
+            { id: 4, description: "Falar com superior" },
           ],
         },
       ],

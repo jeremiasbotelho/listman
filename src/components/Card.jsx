@@ -15,8 +15,8 @@ function Card({ title, tasks }) {
       {showTasks && (
         <>
           <ul className="list-disc pl-5">
-            {visibleTasks.map((task) => (
-              <li key={task.id} className="text-sm text-gray-700">
+            {visibleTasks.map((task, index) => (
+              <li key={`${task.id}-${index}`} className="text-sm text-gray-700">
                 {task.description}
               </li>
             ))}
