@@ -1,11 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SettingsProvider } from "./context/SettingsContext";
 import Sidebar from "./components/Sidebar";
 import Settings from "./pages/Settings";
-import Board from "./components/Board"; // Assumindo que existe
-import "./styles.css";
+import Board from "./components/Board";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
@@ -35,4 +33,4 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+export default App;
