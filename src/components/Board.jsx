@@ -1,28 +1,49 @@
+import React from "react";
 import { useSettings } from "../context/SettingsContext";
 import { getThemeColors } from "../styles/colors";
+import { SidebarConfig } from "../settings/SidebarConfig";
 
-function Board() {
+function Board({ isSidebarOpen }) {
   const { settings } = useSettings();
   const colors = getThemeColors(settings.theme);
 
+  // Calcular largura disponível para o board
+  const sidebarWidth = isSidebarOpen
+    ? SidebarConfig.SIDEBAR_WIDTH_EXPANDED
+    : SidebarConfig.SIDEBAR_WIDTH_COLLAPSED;
+
   return (
     <div
-      className="w-full min-h-screen p-6 font-sans"
-      style={{ backgroundColor: colors.background.main }}
+      className="w-full min-h-screen p-6"
+      style={{
+        backgroundColor: colors.background.container,
+        color: colors.text.primary,
+      }}
     >
       <div
-        className="w-full p-6 rounded-md shadow-sm"
-        style={{ backgroundColor: colors.background.container }}
+        className="max-w-full"
+        style={{
+          width: `calc(100vw - ${sidebarWidth}px)`,
+        }}
       >
-        <h1
-          className="text-lg font-semibold mb-6"
-          style={{ color: colors.text.primary }}
-        >
-          Quadro
-        </h1>
-        <p style={{ color: colors.text.secondary }}>
-          Placeholder para a tela de quadro.
-        </p>
+        <div className="mt-4">
+          {/* Área para colunas dos cards */}
+          <div className="flex space-x-4 overflow-x-auto">
+            <div
+              className="w-64 p-4 rounded-md flex-shrink-0"
+              style={{ backgroundColor: colors.background.main }}
+            >
+              Coluna 1
+            </div>
+            <div
+              className="w-64 p-4 rounded-md flex-shrink-0"
+              style={{ backgroundColor: colors.background.main }}
+            >
+              Coluna 2
+            </div>
+            {/* Mais colunas */}
+          </div>
+        </div>
       </div>
     </div>
   );

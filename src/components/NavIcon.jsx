@@ -1,16 +1,31 @@
 import { NavLink } from "react-router-dom";
 
-function NavIcon({ to, path, label, isOpen, textColor }) {
+function NavIcon({ to, path, label, isOpen, colors }) {
   return (
     <NavLink
       to={to}
-      className={({ isActive }) =>
-        `flex items-center p-2 rounded-md transition-colors duration-200 ${
-          isActive
-            ? "bg-gray-200 text-blue-600"
-            : `${textColor} hover:bg-gray-200 hover:text-blue-600`
-        }`
-      }
+      className="flex items-center p-2 rounded-md"
+      style={({ isActive }) => {
+        console.log(`NavIcon ${to}: isActive =`, isActive);
+        return {
+          backgroundColor: isActive
+            ? colors.navIcon.hoverBackground
+            : "transparent",
+          color: isActive
+            ? colors.navIcon.activeColor
+            : colors.navIcon.inactiveColor,
+        };
+      }}
+      onMouseEnter={(e) => {
+        console.log("Hover color:", colors.navIcon.hoverColor);
+        e.currentTarget.style.color = colors.navIcon.hoverColor;
+      }}
+      onMouseLeave={(e) => {
+        const isActive = e.currentTarget.classList.contains("active");
+        e.currentTarget.style.color = isActive
+          ? colors.navIcon.activeColor
+          : colors.navIcon.inactiveColor;
+      }}
     >
       <svg
         className="w-6 h-6 flex-shrink-0"

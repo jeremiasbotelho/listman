@@ -4,6 +4,10 @@ import { getThemeColors } from "../styles/colors";
 
 function Settings() {
   const [activeTab, setActiveTab] = useState("layout");
+  const [isHoverChecklist, setIsHoverChecklist] = useState(false);
+  const [isHoverTheme, setIsHoverTheme] = useState(false);
+  const [isHoverProfile, setIsHoverProfile] = useState(false);
+
   const context = useSettings();
   if (!context) {
     console.error(
@@ -29,11 +33,11 @@ function Settings() {
   return (
     <div
       className="w-full min-h-screen p-6 font-sans"
-      style={{ backgroundColor: colors.background.main }}
+      style={{ backgroundColor: colors.background.container }}
     >
       <div
         className="w-full p-6 rounded-md shadow-sm"
-        style={{ backgroundColor: colors.background.container }}
+        style={{ backgroundColor: colors.background.main }}
       >
         <h1
           className="text-lg font-semibold mb-6"
@@ -47,7 +51,7 @@ function Settings() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                className="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
                 style={{
                   borderColor:
                     activeTab === tab ? colors.tab.border : "transparent",
@@ -60,12 +64,19 @@ function Settings() {
             ))}
           </nav>
         </div>
+
         {activeTab === "layout" && (
           <div>
             {/* Mostrar itens da checklist */}
             <div
-              className="p-4 rounded-md shadow-sm mb-4 hover:shadow-md transition duration-200"
-              style={{ backgroundColor: colors.background.container }}
+              className="p-3 rounded-md mb-1"
+              onMouseEnter={() => setIsHoverChecklist(true)}
+              onMouseLeave={() => setIsHoverChecklist(false)}
+              style={{
+                backgroundColor: isHoverChecklist
+                  ? colors.background.hoverColor
+                  : colors.background.main,
+              }}
             >
               <div className="flex items-center">
                 <label
@@ -84,7 +95,7 @@ function Settings() {
                     className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                   />
                   <span
-                    className="block w-10 h-6 rounded-full transition duration-200 ease-in-out"
+                    className="block w-10 h-6 rounded-full"
                     style={{
                       backgroundColor: settings.showChecklistItems
                         ? colors.toggle.active
@@ -92,7 +103,7 @@ function Settings() {
                     }}
                   >
                     <span
-                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition duration-200 ease-in-out ${
+                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out ${
                         settings.showChecklistItems ? "translate-x-4" : ""
                       }`}
                     />
@@ -100,10 +111,17 @@ function Settings() {
                 </div>
               </div>
             </div>
+
             {/* Tema Claro/Escuro */}
             <div
-              className="p-4 rounded-md shadow-sm mb-4 hover:shadow-md transition duration-200"
-              style={{ backgroundColor: colors.background.container }}
+              className="p-3 rounded-md mb-1"
+              onMouseEnter={() => setIsHoverTheme(true)}
+              onMouseLeave={() => setIsHoverTheme(false)}
+              style={{
+                backgroundColor: isHoverTheme
+                  ? colors.background.hoverColor
+                  : colors.background.main,
+              }}
             >
               <div className="flex items-center">
                 <label
@@ -122,7 +140,7 @@ function Settings() {
                     className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                   />
                   <span
-                    className="block w-10 h-6 rounded-full transition duration-200 ease-in-out"
+                    className="block w-10 h-6 rounded-full"
                     style={{
                       backgroundColor:
                         settings.theme === "dark"
@@ -131,7 +149,7 @@ function Settings() {
                     }}
                   >
                     <span
-                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition duration-200 ease-in-out ${
+                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out ${
                         settings.theme === "dark" ? "translate-x-4" : ""
                       }`}
                     />
@@ -141,10 +159,17 @@ function Settings() {
             </div>
           </div>
         )}
+
         {activeTab === "profile" && (
           <div
-            className="p-4 rounded-md shadow-sm hover:shadow-md transition duration-200"
-            style={{ backgroundColor: colors.background.container }}
+            className="p-4 rounded-md"
+            onMouseEnter={() => setIsHoverProfile(true)}
+            onMouseLeave={() => setIsHoverProfile(false)}
+            style={{
+              backgroundColor: isHoverProfile
+                ? colors.background.hoverColor
+                : colors.background.container,
+            }}
           >
             <h2
               className="text-base font-medium mb-4 text-center"
