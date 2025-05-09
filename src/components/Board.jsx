@@ -1,41 +1,29 @@
-import Column from "./Column";
+import { useSettings } from "../context/SettingsContext";
+import { getThemeColors } from "../styles/colors";
 
 function Board() {
-  const columns = [
-    {
-      id: 1,
-      title: "To Do",
-      cards: [
-        {
-          id: 1,
-          title: "Card 1",
-          tasks: [
-            { id: 1, description: "Fazer pesquisa" },
-            { id: 2, description: "Escrever relatório" },
-            { id: 3, description: "Exportar PDF" },
-            { id: 4, description: "Falar com superior" },
-          ],
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "In Progress",
-      cards: [
-        {
-          id: 2,
-          title: "Card 2",
-          tasks: [{ id: 3, description: "Testar funcionalidade" }],
-        },
-      ],
-    },
-  ];
+  const { settings } = useSettings();
+  const colors = getThemeColors(settings.theme);
 
   return (
-    <div className="flex space-x-4 h-fit">
-      {columns.map((column) => (
-        <Column key={column.id} title={column.title} cards={column.cards} />
-      ))}
+    <div
+      className="w-full min-h-screen p-6 font-sans"
+      style={{ backgroundColor: colors.background.main }}
+    >
+      <div
+        className="w-full p-6 rounded-md shadow-sm"
+        style={{ backgroundColor: colors.background.container }}
+      >
+        <h1
+          className="text-lg font-semibold mb-6"
+          style={{ color: colors.text.primary }}
+        >
+          Quadro
+        </h1>
+        <p style={{ color: colors.text.secondary }}>
+          Placeholder para a tela de quadro.
+        </p>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ const SettingsContext = createContext();
 export function SettingsProvider({ children }) {
   const [settings, setSettings] = useState({
     showChecklistItems: false,
-    sidebarColor: "#FFFFFF", // Cor inicial da barra lateral (branco)
+    theme: "light", // Tema inicial (claro)
   });
 
   const updateSettings = (newSettings) => {

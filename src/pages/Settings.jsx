@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSettings } from "../context/SettingsContext";
+import { getThemeColors } from "../styles/colors";
 
 function Settings() {
   const [activeTab, setActiveTab] = useState("layout");
@@ -11,6 +12,7 @@ function Settings() {
     return <div>Erro: Contexto de configurações não encontrado.</div>;
   }
   const { settings, updateSettings } = context;
+  const colors = getThemeColors(settings.theme);
 
   const handleToggleChecklistItems = (e) => {
     const checked = e.target.checked;
@@ -18,44 +20,58 @@ function Settings() {
     updateSettings({ showChecklistItems: checked });
   };
 
-  const handleSidebarColorChange = (e) => {
-    updateSettings({ sidebarColor: e.target.value });
+  const handleThemeChange = (e) => {
+    const checked = e.target.checked;
+    console.log("Theme changed:", checked ? "dark" : "light");
+    updateSettings({ theme: checked ? "dark" : "light" });
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 font-sans flex items-center justify-center">
-      <div className="max-w-lg w-full bg-white p-6 rounded-md shadow-sm">
-        <h1 className="text-2xl font-semibold mb-6 text-center">
+    <div
+      className="w-full min-h-screen p-6 font-sans"
+      style={{ backgroundColor: colors.background.main }}
+    >
+      <div
+        className="w-full p-6 rounded-md shadow-sm"
+        style={{ backgroundColor: colors.background.container }}
+      >
+        <h1
+          className="text-lg font-semibold mb-6"
+          style={{ color: colors.text.primary }}
+        >
           Configurações
         </h1>
         <div className="border-b border-gray-200 mb-6">
           <nav className="-mb-px flex justify-center space-x-8">
-            {["layout", "profile", "colors"].map((tab) => (
+            {["layout", "profile"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === tab
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-blue-600 hover:border-gray-300"
-                }`}
+                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                style={{
+                  borderColor:
+                    activeTab === tab ? colors.tab.border : "transparent",
+                  color:
+                    activeTab === tab ? colors.tab.active : colors.tab.inactive,
+                }}
               >
-                {tab === "layout"
-                  ? "Layout"
-                  : tab === "profile"
-                  ? "Perfil"
-                  : "Cores"}
+                {tab === "layout" ? "Layout" : "Perfil"}
               </button>
             ))}
           </nav>
         </div>
         {activeTab === "layout" && (
           <div>
-            <div className="p-4 rounded-md shadow-sm mb-4 hover:shadow-md hover:bg-gray-50 transition duration-200 bg-white">
+            {/* Mostrar itens da checklist */}
+            <div
+              className="p-4 rounded-md shadow-sm mb-4 hover:shadow-md transition duration-200"
+              style={{ backgroundColor: colors.background.container }}
+            >
               <div className="flex items-center">
                 <label
                   htmlFor="showChecklistItems"
-                  className="text-lg font-medium flex-1 cursor-pointer text-gray-700"
+                  className="text-sm font-medium flex-1 cursor-pointer"
+                  style={{ color: colors.text.primary }}
                 >
                   Mostrar itens da checklist no quadro
                 </label>
@@ -68,11 +84,12 @@ function Settings() {
                     className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                   />
                   <span
-                    className={`block w-10 h-6 rounded-full transition duration-200 ease-in-out ${
-                      settings.showChecklistItems
-                        ? "bg-blue-500"
-                        : "bg-gray-300"
-                    }`}
+                    className="block w-10 h-6 rounded-full transition duration-200 ease-in-out"
+                    style={{
+                      backgroundColor: settings.showChecklistItems
+                        ? colors.toggle.active
+                        : colors.toggle.inactive,
+                    }}
                   >
                     <span
                       className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition duration-200 ease-in-out ${
@@ -83,36 +100,64 @@ function Settings() {
                 </div>
               </div>
             </div>
+            {/* Tema Claro/Escuro */}
+            <div
+              className="p-4 rounded-md shadow-sm mb-4 hover:shadow-md transition duration-200"
+              style={{ backgroundColor: colors.background.container }}
+            >
+              <div className="flex items-center">
+                <label
+                  htmlFor="theme"
+                  className="text-sm font-medium flex-1 cursor-pointer"
+                  style={{ color: colors.text.primary }}
+                >
+                  Tema Escuro
+                </label>
+                <div className="relative inline-block w-10 h-6 mr-2">
+                  <input
+                    type="checkbox"
+                    id="theme"
+                    checked={settings.theme === "dark"}
+                    onChange={handleThemeChange}
+                    className="absolute opacity-0 w-full h-full cursor-pointer z-10"
+                  />
+                  <span
+                    className="block w-10 h-6 rounded-full transition duration-200 ease-in-out"
+                    style={{
+                      backgroundColor:
+                        settings.theme === "dark"
+                          ? colors.toggle.active
+                          : colors.toggle.inactive,
+                    }}
+                  >
+                    <span
+                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition duration-200 ease-in-out ${
+                        settings.theme === "dark" ? "translate-x-4" : ""
+                      }`}
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         {activeTab === "profile" && (
-          <div className="p-4 rounded-md shadow-sm hover:shadow-md hover:bg-gray-50 transition duration-200 bg-white">
-            <h2 className="text-lg font-medium mb-4 text-center text-gray-700">
+          <div
+            className="p-4 rounded-md shadow-sm hover:shadow-md transition duration-200"
+            style={{ backgroundColor: colors.background.container }}
+          >
+            <h2
+              className="text-base font-medium mb-4 text-center"
+              style={{ color: colors.text.primary }}
+            >
               Configurações do Perfil
             </h2>
-            <p className="text-center text-gray-500">
+            <p
+              className="text-center text-sm"
+              style={{ color: colors.text.secondary }}
+            >
               Placeholder para configurações do perfil.
             </p>
-          </div>
-        )}
-        {activeTab === "colors" && (
-          <div>
-            <div className="p-4 rounded-md shadow-sm mb-4 hover:shadow-md hover:bg-gray-50 transition duration-200 bg-white">
-              <h3 className="text-lg font-medium mb-2 text-gray-700">
-                Cor da Barra Lateral
-              </h3>
-              <div className="flex items-center">
-                <label className="flex-1 text-sm text-gray-500">
-                  Selecione a cor
-                </label>
-                <input
-                  type="color"
-                  value={settings.sidebarColor}
-                  onChange={handleSidebarColorChange}
-                  className="w-10 h-10 rounded-md cursor-pointer"
-                />
-              </div>
-            </div>
           </div>
         )}
       </div>

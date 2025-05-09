@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-function NavIcon({ to, path, label, isOpen }) {
+function NavIcon({ to, path, label, isOpen, textColor }) {
   return (
     <NavLink
       to={to}
@@ -8,12 +8,12 @@ function NavIcon({ to, path, label, isOpen }) {
         `flex items-center p-2 rounded-md transition-colors duration-200 ${
           isActive
             ? "bg-gray-200 text-blue-600"
-            : "text-gray-700 hover:bg-gray-200 hover:text-blue-600"
+            : `${textColor} hover:bg-gray-200 hover:text-blue-600`
         }`
       }
     >
       <svg
-        className="w-6 h-6"
+        className="w-6 h-6 flex-shrink-0"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
