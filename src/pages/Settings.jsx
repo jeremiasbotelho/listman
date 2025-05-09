@@ -30,6 +30,21 @@ function Settings() {
     updateSettings({ theme: checked ? "dark" : "light" });
   };
 
+  const handleChecklistContainerClick = () => {
+    const newChecked = !settings.showChecklistItems;
+    console.log("Checklist container clicked, new checked:", newChecked);
+    updateSettings({ showChecklistItems: newChecked });
+  };
+
+  const handleThemeContainerClick = () => {
+    const newChecked = settings.theme !== "dark";
+    console.log(
+      "Theme container clicked, new theme:",
+      newChecked ? "dark" : "light"
+    );
+    updateSettings({ theme: newChecked ? "dark" : "light" });
+  };
+
   return (
     <div
       className="w-full min-h-screen p-6 font-sans"
@@ -70,8 +85,15 @@ function Settings() {
             {/* Mostrar itens da checklist */}
             <div
               className="p-3 rounded-md mb-1"
-              onMouseEnter={() => setIsHoverChecklist(true)}
-              onMouseLeave={() => setIsHoverChecklist(false)}
+              onMouseEnter={() => {
+                console.log("Hover checklist: true");
+                setIsHoverChecklist(true);
+              }}
+              onMouseLeave={() => {
+                console.log("Hover checklist: false");
+                setIsHoverChecklist(false);
+              }}
+              onClick={handleChecklistContainerClick}
               style={{
                 backgroundColor: isHoverChecklist
                   ? colors.background.hoverColor
@@ -92,6 +114,7 @@ function Settings() {
                     id="showChecklistItems"
                     checked={settings.showChecklistItems}
                     onChange={handleToggleChecklistItems}
+                    onClick={(e) => e.stopPropagation()}
                     className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                   />
                   <span
@@ -115,8 +138,15 @@ function Settings() {
             {/* Tema Claro/Escuro */}
             <div
               className="p-3 rounded-md mb-1"
-              onMouseEnter={() => setIsHoverTheme(true)}
-              onMouseLeave={() => setIsHoverTheme(false)}
+              onMouseEnter={() => {
+                console.log("Hover theme: true");
+                setIsHoverTheme(true);
+              }}
+              onMouseLeave={() => {
+                console.log("Hover theme: false");
+                setIsHoverTheme(false);
+              }}
+              onClick={handleThemeContainerClick}
               style={{
                 backgroundColor: isHoverTheme
                   ? colors.background.hoverColor
@@ -137,6 +167,7 @@ function Settings() {
                     id="theme"
                     checked={settings.theme === "dark"}
                     onChange={handleThemeChange}
+                    onClick={(e) => e.stopPropagation()}
                     className="absolute opacity-0 w-full h-full cursor-pointer z-10"
                   />
                   <span
@@ -163,8 +194,14 @@ function Settings() {
         {activeTab === "profile" && (
           <div
             className="p-4 rounded-md"
-            onMouseEnter={() => setIsHoverProfile(true)}
-            onMouseLeave={() => setIsHoverProfile(false)}
+            onMouseEnter={() => {
+              console.log("Hover profile: true");
+              setIsHoverProfile(true);
+            }}
+            onMouseLeave={() => {
+              console.log("Hover profile: false");
+              setIsHoverProfile(false);
+            }}
             style={{
               backgroundColor: isHoverProfile
                 ? colors.background.hoverColor
