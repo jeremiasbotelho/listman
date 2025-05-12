@@ -1,22 +1,25 @@
-function Topbar({ toggleSidebar }) {
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import { TopbarConfig } from "../settings/TopbarConfig";
+
+function Topbar({ isSidebarOpen, setIsSidebarOpen, colors }) {
   return (
-    <div className="md:hidden fixed top-0 left-0 right-0 bg-gray-800 text-white h-14 flex items-center px-4 z-50">
-      <button onClick={toggleSidebar} className="p-2">
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
+    <div
+      className="fixed top-0 left-0 right-0 z-50 flex items-center p-2 md:hidden"
+      style={{
+        backgroundColor: colors.background.main,
+        color: colors.text.primary,
+        height: `${TopbarConfig.TOPBAR_HEIGHT}px`,
+      }}
+    >
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="p-2 rounded-md"
+        style={{
+          color: colors.text.primary,
+        }}
+      >
+        <Bars3Icon className="w-6 h-6" />
       </button>
-      <h1 className="text-lg font-semibold">Listman</h1>
     </div>
   );
 }

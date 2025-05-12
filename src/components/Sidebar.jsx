@@ -2,8 +2,9 @@ import NavIcon from "./NavIcon";
 import { useSettings } from "../context/SettingsContext";
 import { getThemeColors } from "../styles/colors";
 import { SidebarConfig } from "../settings/SidebarConfig";
+import { TopbarConfig } from "../settings/TopbarConfig";
 
-function Sidebar({ isOpen, setIsOpen }) {
+function Sidebar({ isOpen, setIsOpen, isMobile }) {
   const { settings } = useSettings();
   const colors = getThemeColors(settings.theme);
 
@@ -13,16 +14,17 @@ function Sidebar({ isOpen, setIsOpen }) {
       <div
         className={`h-full fixed top-0 left-0 z-50 transition-[width,transform] duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        } md:flex md:flex-col overflow-hidden shadow-sm`}
+        } flex flex-col overflow-hidden shadow-sm`}
         style={{
           width: isOpen
             ? SidebarConfig.SIDEBAR_WIDTH_EXPANDED
             : SidebarConfig.SIDEBAR_WIDTH_COLLAPSED,
           backgroundColor: colors.sidebar.background,
+          paddingTop: isMobile ? `${TopbarConfig.TOPBAR_HEIGHT}px` : "0px",
         }}
       >
-        {/* Botão de expandir/recolher */}
-        <div className="flex justify-end w-full p-2">
+        {/* Botão de expandir/recolher (Desktop Only) */}
+        <div className="md:block hidden flex justify-end w-full p-2">
           <button onClick={() => setIsOpen(!isOpen)}>
             <svg
               className={`w-6 h-6 transition-transform duration-75 ${
@@ -51,6 +53,8 @@ function Sidebar({ isOpen, setIsOpen }) {
               label="Quadro"
               isOpen={isOpen}
               colors={colors}
+              setIsSidebarOpen={setIsOpen}
+              isMobile={isMobile}
             />
             <NavIcon
               to="/settings"
@@ -58,6 +62,8 @@ function Sidebar({ isOpen, setIsOpen }) {
               label="Configurações"
               isOpen={isOpen}
               colors={colors}
+              setIsSidebarOpen={setIsOpen}
+              isMobile={isMobile}
             />
           </nav>
           {/* Nome Listman na base */}

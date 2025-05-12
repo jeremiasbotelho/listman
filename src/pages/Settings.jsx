@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useSettings } from "../context/SettingsContext";
 import { getThemeColors } from "../styles/colors";
+import ToggleSwitch from "../components/ToggleSwitch";
 
 function Settings() {
   const [activeTab, setActiveTab] = useState("layout");
-  const [isHoverChecklist, setIsHoverChecklist] = useState(false);
-  const [isHoverTheme, setIsHoverTheme] = useState(false);
   const [isHoverProfile, setIsHoverProfile] = useState(false);
 
   const context = useSettings();
@@ -20,7 +19,7 @@ function Settings() {
 
   const handleToggleChecklistItems = (e) => {
     const checked = e.target.checked;
-    console.log("Toggle changed:", checked);
+    console.log("Toggle changed (checklist):", checked);
     updateSettings({ showChecklistItems: checked });
   };
 
@@ -30,28 +29,13 @@ function Settings() {
     updateSettings({ theme: checked ? "dark" : "light" });
   };
 
-  const handleChecklistContainerClick = () => {
-    const newChecked = !settings.showChecklistItems;
-    console.log("Checklist container clicked, new checked:", newChecked);
-    updateSettings({ showChecklistItems: newChecked });
-  };
-
-  const handleThemeContainerClick = () => {
-    const newChecked = settings.theme !== "dark";
-    console.log(
-      "Theme container clicked, new theme:",
-      newChecked ? "dark" : "light"
-    );
-    updateSettings({ theme: newChecked ? "dark" : "light" });
-  };
-
   return (
     <div
-      className="w-full min-h-screen p-6 font-sans"
+      className="w-screen md:w-full min-h-screen p-2 font-sans"
       style={{ backgroundColor: colors.background.container }}
     >
       <div
-        className="w-full p-6 rounded-md shadow-sm"
+        className="w-full p-4 rounded-md shadow-sm"
         style={{ backgroundColor: colors.background.main }}
       >
         <h1
@@ -82,112 +66,20 @@ function Settings() {
 
         {activeTab === "layout" && (
           <div>
-            {/* Mostrar itens da checklist */}
-            <div
-              className="p-3 rounded-md mb-1"
-              onMouseEnter={() => {
-                console.log("Hover checklist: true");
-                setIsHoverChecklist(true);
-              }}
-              onMouseLeave={() => {
-                console.log("Hover checklist: false");
-                setIsHoverChecklist(false);
-              }}
-              onClick={handleChecklistContainerClick}
-              style={{
-                backgroundColor: isHoverChecklist
-                  ? colors.background.hoverColor
-                  : colors.background.main,
-              }}
-            >
-              <div className="flex items-center">
-                <label
-                  htmlFor="showChecklistItems"
-                  className="text-sm font-medium flex-1 cursor-pointer"
-                  style={{ color: colors.text.primary }}
-                >
-                  Mostrar itens da checklist no quadro
-                </label>
-                <div className="relative inline-block w-10 h-6 mr-2">
-                  <input
-                    type="checkbox"
-                    id="showChecklistItems"
-                    checked={settings.showChecklistItems}
-                    onChange={handleToggleChecklistItems}
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute opacity-0 w-full h-full cursor-pointer z-10"
-                  />
-                  <span
-                    className="block w-10 h-6 rounded-full"
-                    style={{
-                      backgroundColor: settings.showChecklistItems
-                        ? colors.toggle.active
-                        : colors.toggle.inactive,
-                    }}
-                  >
-                    <span
-                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out ${
-                        settings.showChecklistItems ? "translate-x-4" : ""
-                      }`}
-                    />
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Tema Claro/Escuro */}
-            <div
-              className="p-3 rounded-md mb-1"
-              onMouseEnter={() => {
-                console.log("Hover theme: true");
-                setIsHoverTheme(true);
-              }}
-              onMouseLeave={() => {
-                console.log("Hover theme: false");
-                setIsHoverTheme(false);
-              }}
-              onClick={handleThemeContainerClick}
-              style={{
-                backgroundColor: isHoverTheme
-                  ? colors.background.hoverColor
-                  : colors.background.main,
-              }}
-            >
-              <div className="flex items-center">
-                <label
-                  htmlFor="theme"
-                  className="text-sm font-medium flex-1 cursor-pointer"
-                  style={{ color: colors.text.primary }}
-                >
-                  Tema Escuro
-                </label>
-                <div className="relative inline-block w-10 h-6 mr-2">
-                  <input
-                    type="checkbox"
-                    id="theme"
-                    checked={settings.theme === "dark"}
-                    onChange={handleThemeChange}
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute opacity-0 w-full h-full cursor-pointer z-10"
-                  />
-                  <span
-                    className="block w-10 h-6 rounded-full"
-                    style={{
-                      backgroundColor:
-                        settings.theme === "dark"
-                          ? colors.toggle.active
-                          : colors.toggle.inactive,
-                    }}
-                  >
-                    <span
-                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out ${
-                        settings.theme === "dark" ? "translate-x-4" : ""
-                      }`}
-                    />
-                  </span>
-                </div>
-              </div>
-            </div>
+            <ToggleSwitch
+              id="showChecklistItems"
+              label="Mostrar itens da checklist no quadro"
+              checked={settings.showChecklistItems}
+              onChange={handleToggleChecklistItems}
+              colors={colors}
+            />
+            <ToggleSwitch
+              id="theme"
+              label="Tema Escuro"
+              checked={settings.theme === "dark"}
+              onChange={handleThemeChange}
+              colors={colors}
+            />
           </div>
         )}
 
