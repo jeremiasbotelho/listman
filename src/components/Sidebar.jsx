@@ -12,22 +12,31 @@ function Sidebar({ isOpen, setIsOpen, isMobile }) {
     <>
       {/* Barra lateral */}
       <div
-        className={`h-full fixed top-0 left-0 z-50 transition-[width,transform] duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        } flex flex-col overflow-hidden shadow-sm`}
+        className={`h-full fixed top-0 left-0 z-50 flex flex-col shadow-sm transition-all duration-300`}
         style={{
-          width: isOpen
+          width: isMobile
+            ? SidebarConfig.SIDEBAR_WIDTH_EXPANDED
+            : isOpen
             ? SidebarConfig.SIDEBAR_WIDTH_EXPANDED
             : SidebarConfig.SIDEBAR_WIDTH_COLLAPSED,
+          transform: isMobile
+            ? isOpen
+              ? "translateX(0)"
+              : "translateX(-100%)"
+            : "translateX(0)",
           backgroundColor: colors.sidebar.background,
           paddingTop: isMobile ? `${TopbarConfig.TOPBAR_HEIGHT}px` : "0px",
         }}
       >
         {/* Botão de expandir/recolher (Desktop Only) */}
-        <div className="md:block hidden flex justify-end w-full p-2">
+        <div
+          className={`flex justify-end w-full p-2 ${
+            isMobile ? "hidden" : "block"
+          }`}
+        >
           <button onClick={() => setIsOpen(!isOpen)}>
             <svg
-              className={`w-6 h-6 transition-transform duration-75 ${
+              className={`w-6 h-6 transition-transform duration-300 ${
                 isOpen ? "rotate-180" : ""
               }`}
               fill="none"
@@ -78,12 +87,12 @@ function Sidebar({ isOpen, setIsOpen, isMobile }) {
         </div>
       </div>
       {/* Overlay para fechar no mobile */}
-      {isOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
+      <div
+        className={`md:hidden fixed inset-0 bg-black transition-opacity duration-300 ${
+          isOpen ? "opacity-50" : "opacity-0 pointer-events-none"
+        } z-40`}
+        onClick={() => setIsOpen(false)}
+      />
     </>
   );
 }

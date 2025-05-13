@@ -1,6 +1,7 @@
 import React from "react";
 import { useSettings } from "../context/SettingsContext";
 import { getThemeColors } from "../styles/colors";
+import { TopbarConfig } from "../settings/TopbarConfig";
 
 function Board({ isSidebarOpen }) {
   const context = useSettings();
@@ -16,10 +17,11 @@ function Board({ isSidebarOpen }) {
 
   return (
     <div
-      className="w-screen md:w-full min-h-screen p-2 overflow-x-auto"
+      className="w-screen md:w-full p-2 overflow-x-auto"
       style={{
         backgroundColor: colors.background.container,
         color: colors.text.primary,
+        minHeight: `calc(100vh - ${TopbarConfig.TOPBAR_HEIGHT}px)`,
       }}
     >
       <div className="w-full">

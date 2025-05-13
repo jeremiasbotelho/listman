@@ -44,17 +44,10 @@ function App() {
     <Router>
       <div
         className="block w-full min-h-screen overflow-x-hidden"
-        style={{ backgroundColor: colors.background.main }}
+        style={{ backgroundColor: colors.background.container }}
       >
         {/* Sidebar: escondida em mobile, empurra conteúdo em desktop */}
-        <div
-          className={`fixed top-0 left-0 h-full transition-all duration-300 z-40 md:static ${
-            isSidebarOpen ? "w-64" : "w-0 hidden md:block md:w-16"
-          }`}
-          style={{
-            backgroundColor: colors.sidebar.background,
-          }}
-        >
+        <div className={`fixed top-0 left-0 h-full z-40 md:static`}>
           <Sidebar
             isOpen={isSidebarOpen}
             setIsOpen={setIsSidebarOpen}
@@ -71,7 +64,7 @@ function App() {
 
         {/* Conteúdo principal */}
         <div
-          className="flex-1 min-w-0 transition-all duration-300"
+          className="flex-1 min-w-0"
           style={{
             marginLeft: isDesktop
               ? `${
@@ -80,7 +73,7 @@ function App() {
                     : SidebarConfig.SIDEBAR_WIDTH_COLLAPSED
                 }px`
               : "0px",
-            marginTop: isDesktop ? "0px" : `${TopbarConfig.TOPBAR_HEIGHT}px`,
+            paddingTop: isDesktop ? "0px" : `${TopbarConfig.TOPBAR_HEIGHT}px`,
           }}
         >
           <Routes>

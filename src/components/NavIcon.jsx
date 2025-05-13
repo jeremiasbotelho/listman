@@ -1,6 +1,14 @@
 import { NavLink } from "react-router-dom";
 
-function NavIcon({ to, path, label, isOpen, colors }) {
+function NavIcon({
+  to,
+  path,
+  label,
+  isOpen,
+  colors,
+  setIsSidebarOpen,
+  isMobile,
+}) {
   return (
     <NavLink
       to={to}
@@ -16,6 +24,7 @@ function NavIcon({ to, path, label, isOpen, colors }) {
             : colors.navIcon.inactiveColor,
         };
       }}
+      onClick={() => isMobile && setIsSidebarOpen(false)}
       onMouseEnter={(e) => {
         console.log("Hover color:", colors.navIcon.hoverColor);
         e.currentTarget.style.color = colors.navIcon.hoverColor;
